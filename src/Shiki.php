@@ -14,10 +14,16 @@ class Shiki
     protected mixed $defaultTheme;
 
     private static ?string $customWorkingDirPath = null;
+    private static ?string $customNodePath = null;
 
     public static function setCustomWorkingDirPath(?string $path)
     {
         static::$customWorkingDirPath = $path;
+    }
+
+    public static function setCustomNodePath(?string $path)
+    {
+        static::$customNodePath = $path;
     }
 
     /**
@@ -102,8 +108,10 @@ class Shiki
     protected function callShiki(...$arguments): string
     {
         $home = getenv("HOME");
+        $nodePath = static::$customNodePath ?? getenv('NODE_BINARY_PATH');
+        
         $command = [
-            (new ExecutableFinder())->find('node', 'node', [
+            $nodePath ?: (new ExecutableFinder())->find('node', 'node', [
                 '/usr/local/bin',
                 '/opt/homebrew/bin',
                 $home . '/n/bin', // support https://github.com/tj/n

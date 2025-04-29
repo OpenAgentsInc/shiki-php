@@ -193,17 +193,44 @@ Shiki::highlight(
 
 ## Using Node Version Manager
 
-Under the hood, this package runs a node command  to render the markdown. If you use NVM during development, 
-then the package will be unlikely to find your version of node as it looks for the node executable in
-`/usr/local/bin` and `/opt/homebrew/bin` - if this is the case, then you should create a symlink between
-the node distributable in your NVM folder, to that of the `usr/local/bin`. Such a command might look like this:
+Under the hood, this package runs a node command to render the markdown. There are several ways to configure the node executable:
+
+### 1. Using environment variables
+
+You can set the `NODE_BINARY_PATH` environment variable to point to your node executable:
+
+```bash
+# In your .env file
+NODE_BINARY_PATH=/path/to/your/node
+```
+
+### 2. Setting the path programmatically
+
+```php
+use Spatie\ShikiPhp\Shiki;
+
+// Set the path to the node binary
+Shiki::setCustomNodePath('/path/to/your/node');
+
+// Then use Shiki as normal
+Shiki::highlight('...', 'php');
+```
+
+### 3. Default node lookup (fallback)
+
+If neither of the above methods are used, the package will look for the node executable in:
+- `/usr/local/bin`
+- `/opt/homebrew/bin`
+- `$HOME/n/bin` (for the Node version manager 'n')
+
+If you use NVM during development and don't want to set the path explicitly, you can create a symlink between
+the node distributable in your NVM folder to `/usr/local/bin`. Such a command might look like this:
 
 ```bash
 sudo ln -s /home/some-user/.nvm/versions/node/v17.3.1/bin/node /usr/local/bin/node
 ```
 
-Creating this symlink will allow the package to find your NPM executable. Please note, if you change
-your NPM version you will have to update your symlinks accordingly.
+Please note, if you change your NPM version you will need to update your symlinks accordingly.
 
 ## Testing
 

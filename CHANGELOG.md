@@ -2,6 +2,13 @@
 
 All notable changes to `shiki-php` will be documented in this file.
 
+## 2.4.0 - 2025-04-29
+
+### What's Changed
+
+* Added support for customizing Node binary path through environment variable by setting NODE_BINARY_PATH
+* Added setCustomNodePath method for programmatically setting the Node binary path
+
 ## 2.3.2 - 2025-02-21
 
 ### What's Changed
