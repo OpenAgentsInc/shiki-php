@@ -23,7 +23,9 @@ class Shiki
 
     public static function setCustomNodePath(?string $path)
     {
+        // Log the path
         static::$customNodePath = $path;
+        echo "Set custom node path: " . $path . PHP_EOL;
     }
 
     /**
@@ -109,7 +111,7 @@ class Shiki
     {
         $home = getenv("HOME");
         $nodePath = static::$customNodePath ?? getenv('NODE_BINARY_PATH');
-        
+
         $command = [
             $nodePath ?: (new ExecutableFinder())->find('node', 'node', [
                 '/usr/local/bin',
